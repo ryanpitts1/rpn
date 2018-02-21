@@ -5,7 +5,7 @@ module Rpn
   # Defaults are provided as well.
   #
   class Configuration
-    attr_accessor :operators, :repl_prefix
+    attr_accessor :operators
 
     def initialize
       @operators = {

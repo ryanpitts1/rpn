@@ -7,7 +7,7 @@ require 'rpn/version'
 module Rpn
   #
   # This tells the Rpn module that this instance variable is on the module scope.
-  # attr_accessor is used to indicate that we’ll be reading whatever value is set here later.
+  # attr_accessor is used to indicate that we are reading whatever value is set here later.
   #
   class << self
     attr_accessor :configuration
