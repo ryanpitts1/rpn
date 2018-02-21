@@ -1,10 +1,4 @@
 module Rpn
-  OPERATORS = {
-    '+' => :+,
-    '-' => :-,
-    '*' => :*,
-    '/' => :/
-  }
   #
   # The Calculator class will instantiate a parse and then take the
   # user's input and interpret it, raising any erorrs if necessary.
@@ -31,7 +25,7 @@ module Rpn
 
     def compute(calculation, cli = false)
       calculation.split.map do |token|
-        if OPERATORS.include?(token)
+        if Rpn.configuration.operators.include?(token)
           raise InsufficientOperandsError.new, 'Not enough operands' if @stack.length < 2
 
           lhs, rhs = @stack.pop(2)
@@ -55,11 +49,11 @@ module Rpn
     end
 
     def handle_operation(lhs, rhs, operation)
-      if OPERATORS[operation] == :/ && rhs.zero?
+      if Rpn.configuration.operators[operation] == :/ && rhs.zero?
         raise DivisionByZeroError.new, 'You cannot divide by zero'
       end
 
-      @stack << lhs.send(OPERATORS[operation], rhs)
+      @stack << lhs.send(Rpn.configuration.operators[operation], rhs)
     end
   end
 end
