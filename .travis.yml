@@ -4,4 +4,3 @@ branches:
         - master
 script:
     - bundle exec rake spec
-    - bundle exec rubocop

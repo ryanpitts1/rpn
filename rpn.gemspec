@@ -1,8 +1,6 @@
-require 'rpn/version'
-
 Gem::Specification.new do |spec|
   spec.name          = 'rpn'
-  spec.version       = Rpn::VERSION
+  spec.version       = '0.1.0'
   spec.authors       = ['Ryan Pitts']
   spec.email         = ['ryanpitts1@gmail.com']
 
