@@ -122,4 +122,4 @@ $ irb -Ilib -rrpn
 
 # License
 
-See the [LICENSE](./LICENSE) file.
+See the [LICENSE](./LICENSE.txt) file.
