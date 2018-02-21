@@ -1,5 +1,4 @@
-require "rpn/version"
-
-module Rpn
-  # Your code goes here...
-end
+require 'rpn/calculator'
+require 'rpn/errors'
+require 'rpn/repl'
+require 'rpn/version'

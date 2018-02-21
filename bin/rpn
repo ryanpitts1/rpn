@@ -1,0 +1,25 @@
+#!/usr/bin/env ruby
+
+require 'rpn'
+
+#
+# Usage
+#   If you enter `rpn` with no arguments you will be dropped into the REPL.
+#   Otherwise, any arguments provided will be evaluated.
+#
+
+if ARGV.empty?
+  Rpn::Repl.new
+else
+  begin
+    puts Rpn::Calculator.compute(ARGV.join(' '))
+  rescue Rpn::ComputationIncompleteError
+    puts 'The computation was not fully specified. Try again.'
+  rescue Rpn::UnrecognizedInputError
+    puts 'The computation has an unrecognized input. Try again.'
+  rescue Rpn::DivisionByZeroError
+    puts 'Dividing by zero gives you infinity. Try again.'
+  rescue Rpn::InsufficientOperandsError
+    puts 'Not enough operands. Try again.'
+  end
+end
