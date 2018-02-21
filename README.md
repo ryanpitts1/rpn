@@ -1,43 +1,125 @@
-# Rpn
+RPN [![Build Status](https://travis-ci.org/ryanpitts1/rpn.svg?branch=master)](https://travis-ci.org/ryanpitts1/rpn)
+==================
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/rpn`. To experiment with that code, run `bin/console` for an interactive prompt.
+An interactive [Reverse Polish notation] (RPN) calculator written in Ruby. This gem can be run from the command-line or from within your application.
 
-TODO: Delete this and the text above, and describe your gem
+[Reverse Polish notation]: https://en.wikipedia.org/wiki/Reverse_Polish_notation
 
-## Installation
+# Installation
 
-Add this line to your application's Gemfile:
+This gem is not currently hosted on RubyGems.org because of a gem naming conflict. You can install this gem using the Github repo location.
 
-```ruby
-gem 'rpn'
+```
+gem 'rpn', :git => 'git://github.com/ryanpitts1/rpn.git'
 ```
 
-And then execute:
+# Usage
 
-    $ bundle
+### Via Command-Line
 
-Or install it yourself as:
+The RPN calculator can be used via the command-line or via Ruby code.
 
-    $ gem install rpn
+The RPN gem also comes with an executable that is automatically installed. You can run the executable using the `rpn` command in your terminal, for example:
 
-## Usage
+```bash
+$ rpn 5 5 +
+```
 
-TODO: Write usage instructions here
+Note, if you use multiplication via the command line it should be escaped
+unless the arguments are wrapped in quotes. Both of the following will work:
 
-## Development
+```bash
+$ rpn 3 3 \*
+```
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+```bash
+$ rpn "3 3 *"
+```
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and tags, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+If you enter `rpn` without any arguments you will drop into the [REPL] where you can compute in real time.
 
-## Contributing
+[REPL]: https://en.wikipedia.org/wiki/Read–eval–print_loop
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/rpn. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+```bash
+$ rpn
+> 3 2 +
+5.0
+> 6 -
+-1.0
+> 13 *
+-13.0
+> -1 /
+13.0
+> q
+$
+```
 
-## License
+### Via Ruby
 
-The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
+The second way to use `rpn` is via Ruby itself. Once you have the gem installed you can require the `rpn` gem and use it via your own code:
 
-## Code of Conduct
+```ruby
+require 'rpn'
 
-Everyone interacting in the Rpn project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/rpn/blob/master/CODE_OF_CONDUCT.md).
+puts Rpn::Calculator.compute('3 2 +')
+```
+
+You can also specify the operators via a configurable `operators` variable.
+
+```ruby
+require 'rpn'
+
+Rpn.configure do |config|
+  config.operators = {
+    '+' => :+,
+    '-' => :-,
+    '*' => :*,
+    '/' => :/
+  }
+end
+```
+
+### Supported Commands
+
+- Values: integers (`2`), decimals (`2.5`), and negative numbers (`-2.5`).
+- Default Operators: addition (`+`), subtraction (`-`), multiplication (`*`), and
+  division (`/`).
+- Exiting: `q` or `CTRL-D` return to the shell.
+
+# Architectural Decisions
+
+The RPN gem was kept pretty simple and straight-forward. Although, it also is flexible enough to let the user use the calculator in a variety of ways. The decision was made in this gem to allow the user to interact with the gem from the command-line as well as from within the codebase of an application.
+
+The one architectural decision that was made to help with future design needs was to abstract the operators into a configurable variable. This allows the user to use an basic mathmatical operators of their choosing.  One example that could easily be added is calculating percentage by adding the `%` operator.
+
+The gem comes with a suite of tests that test functionality of the classes themselves as well as the expected funstionality of the command-line use.
+
+# Future Considerations
+
+One thing that could be added in future iterations of this gem is the ability to handle unary operators such as `sqrt`. I would also like to support scientific notation operands such as `0.6e6`.
+
+# Development
+
+To get a working development environment ready for making changes to `rpn` you can clone this repository and do the following:
+
+1. `bundle install` to install all required gems
+1. `rspec spec` to run the test suite
+1. `rubocop` to run the Ruby linter
+
+You can execute the development binary (./bin/rpn) but you must load the `lib`
+folder. You can do so like:
+
+```bash
+$ ruby -Ilib ./bin/rpn
+```
+
+You can also open an IRB instance with the development library available as
+well:
+
+```bash
+$ irb -Ilib -rrpn
+```
+
+# License
+
+See the [LICENSE](./LICENSE) file.
