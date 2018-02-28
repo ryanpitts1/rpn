@@ -50,6 +50,7 @@ module Rpn
 
     def handle_operation(lhs, rhs, operation)
       if Rpn.configuration.operators[operation] == :/ && rhs.zero?
+        @stack << 0.0
         raise DivisionByZeroError.new, 'You cannot divide by zero'
       end
 
